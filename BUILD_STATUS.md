@@ -15,7 +15,7 @@
 | Stage 4 — Domain extension | NOT STARTED |
 | BAND account + real room + room export | NOT STARTED — blocked (parent browser task) |
 | Demo video (script done; room-recording shots blocked) | SCRIPT DONE — capture blocked |
-| Public GitHub repo | NOT STARTED — doable now via metismuse account |
+| Public GitHub repo | CREATED — https://github.com/metismuse/dark-factory (public, empty); local remote `origin` added. Code push queued pending GitHub PAT (SSH proxy-blocked) |
 | Cover image, slides, submission form | NOT STARTED |
 | Submission to lablab.ai | NOT DONE — user-confirmed action |
 
