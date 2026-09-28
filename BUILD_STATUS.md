@@ -1,22 +1,23 @@
 # BUILD STATUS — Dark Factory (pocketful)
 
-**Last updated:** 2026-09-27 ~08:15 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
-(9 days, ~17.5 h remaining) · **Spend:** $0.00 (all local compute + free tiers)
+**Last updated:** 2026-09-28 ~04:35 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
+(~8.5 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
 
-## Completion: ~30%
+## Completion: ~40%
 
 | Workstream | State |
 |---|---|
 | Factory scaffold (5 seats, mandates, FACTORY.md, SPEC.json, dispatch log) | DONE |
 | Stage 1 — JSON API (`app/server.js`, `app/store.js`) | DONE — gated, provisional on spec names |
-| Stage-1 gates: spec-warden 22/22 CONFORMS · golden suite 14/14 green · clean-boot (`unshare -rn`, zero outbound) verified | DONE |
+| Stage-1 gates: spec-warden 22/22 CONFORMS · golden suite 14/14 green · clean-boot (`unshare -rn`, zero outbound) verified | DONE (re-verified 2026-09-28: 14/14 green) |
 | Stage 2 — Web UI (`data-testid`) | NOT STARTED — blocked on official spec |
 | Stage 3 — Concurrency control (hardening beyond stage-1 suite) | NOT STARTED |
 | Stage 4 — Domain extension | NOT STARTED |
 | BAND account + real room + room export | NOT STARTED — blocked (parent browser task) |
-| Demo video (script done; room-recording shots blocked) | SCRIPT DONE — capture blocked |
-| Public GitHub repo | CREATED — https://github.com/metismuse/dark-factory (public, empty); local remote `origin` added. Code push queued pending GitHub PAT (SSH proxy-blocked) |
-| Cover image, slides, submission form | NOT STARTED |
+| Demo video (script done; 4/7 shots captured) | PARTIAL — shots 1/4/5/7 done (real-run transcripts, PIL-rendered); 2/3 (room) + 6 (stage-2 UI) blocked |
+| Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public; code + cover pushed 2026-09-28) |
+| Cover image | DONE — video/cover.png (1280×720, 5 stations, pushed) |
+| Slides, submission form | NOT STARTED |
 | Submission to lablab.ai | NOT DONE — user-confirmed action |
 
 ## What the autonomous scope delivered today
@@ -44,15 +45,32 @@
 1. **Official track spec** (lablab.ai session): exact endpoints, field names,
    status codes, `data-testid` values, CPU/mem caps, deadline timezone.
    Blocks: stage 2 UI, locking SPEC.json names, the 409/200 replay-status
-   convention, self-transfer semantics.
-2. **BAND account + API key** (free, app.band.ai; brief assigns account limits
-   to parent): blocks the real room, the room export (minimum eligibility),
-   and the room recording (video DQ item).
-3. **Band Desktop download + headless record**: fallback is the user recording
-   the room on their own machine.
-4. **Public GitHub repo** for the project (metismuse account exists; creation
-   + push are within standing authority — queued for a later run).
-5. **Submission** — user-confirmed; never autonomous.
+   convention, self-transfer semantics. NO decision-independent workaround —
+   building the UI on provisional names risks a full rework under the harness.
+2. **BAND account + API key** (free, app.band.ai): blocks the real room, the
+   room export (minimum eligibility), the room recording (video DQ item), and
+   all Agent Teamwork evidence (25% of the score). This is the single biggest
+   remaining risk.
+3. **Band Desktop headless record / user-side room recording**: fallback is the
+   user recording the room on their own machine (lablab docs are macOS/Linux).
+4. **Submission** — user-confirmed; never autonomous.
+
+## What's now done that was queued (2026-09-28 ~04:35 CDT run)
+- GitHub repo is live with code: initial push (SSH `GIT_SSH_COMMAND` with
+  `~/.ssh/id_github_metis` — works from this VM; the earlier "proxy-blocked"
+  diagnosis was the root/ssh-config mismatch, now resolved).
+- Cover image generated, committed, pushed (`video/cover.png`, 1280×720;
+  `video/cover-provenance.json` holds the generation record).
+- Golden suite re-verified green (14/14, 0 fail) post-push.
+- Submission checklist item "Public GitHub repo" + "Cover image" are DONE.
+
+## Decision-independent work remaining (mine, no blockers)
+- Slide deck (5–7 slides: factory shape → stage-1 demo → gates → costs → next)
+  — draftable from FACTORY.md + SHOT_LOG.md now.
+- Video narration script timings vs captured shots (shot-4 is 34.9s in a 60s
+  slot; shot-5 24.7s in a 30s slot) — assembly plan ready once shots 2/3/6 land.
+- Autonomy audit prep: dispatch-log entries for stage 1 are recorded; stages
+  2–4 need the same treatment at dispatch time.
 
 ## Submission checklist (final run, in order)
 
