@@ -64,11 +64,11 @@ green (room video present, mandates generic, service boots clean, stage 1 comple
 
 ## Day 9 — Mon Oct 5 — Submit
 Submit via lablab.ai form (parent browser task if session needed); keep buffer for harness re-runs. Deadline
-time/timezone TBD at enrollment — treat 12:00 UTC as planning worst case until confirmed.
+Deadline confirmed: Oct 6, 2026 1:59 AM CDT (BUILD_STATUS.md 2026-09-27 ~08:15 CDT).
 
 ## Risk register
 - Band Desktop GUI unusable headless → G1 fallback (human records room; or CLI-only with video risk accepted).
 - Claude Code sign-in is the documented agent path; paid/identity-bound → we use non-Claude agents via SDK/ACP.
   If the room export or plugin flow turns out Claude-Code-only, escalate.
 - Free-model quality on exact-conformance tasks: mitigate with spec-warden + golden suite, not bigger models.
-- lablab.ai enrollment/team rules unknown until browser step — could add a human gate (e.g., phone verify).
+- lablab.ai enrollment DONE 2026-09-27 ~00:47 CDT: solo entry, SUBMITTED + APPROVED, no phone verify encountered.

@@ -58,10 +58,10 @@ parent brief (prize/track figures); github.com/yanerox69/dark-factory (competito
    with the spec at kickoff.
 3. A mandate that names **track-specific detail** is a disqualifier — mandates must stay generic.
 
-## Open items (verify at enrollment via lablab.ai page / hacker guide / Discord)
-- [ ] Full track list + prize breakdown per track (tablekeeper spec; pocketful spec).
+## Open items (enrollment done 2026-09-27 ~00:47 CDT — SUBMITTED + APPROVED, solo entry, 3,071 participants)
+- [x] Full track list + prize breakdown per track — VERIFIED at enrollment 2026-09-27: $6,000 cash across two tracks.
 - [ ] Stage 1–4 definitions per track; harness/grading exactness rules; CPU/mem caps; concurrency/timeouts.
-- [ ] Submission deadline time + timezone on Oct 5.
-- [ ] Solo team eligibility (lablab teams default to multi-person; confirm 1-person team is allowed).
+- [x] Submission deadline — CONFIRMED 2026-09-27 ~08:15 CDT (BUILD_STATUS.md): Oct 6, 2026 1:59 AM CDT (build window Sep 26–Oct 5).
+- [x] Solo team eligibility — CONFIRMED: solo entry SUBMITTED + APPROVED 2026-09-27 ~00:47 CDT, no phone verify encountered.
 - [ ] Whether the BAND Desktop room export is obtainable via CLI/API headlessly (needed for the room-video + export
       submission items if the GUI proves unusable).
