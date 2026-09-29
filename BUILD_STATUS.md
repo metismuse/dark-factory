@@ -17,7 +17,7 @@
 | Stage-4 conformance | **5/5 sample green** (2026-09-29) |
 | SPEC.json | REWRITTEN to the official pocketful contract (provisional wallet/deposit API retired) |
 | Demo video | PARTIAL — shots 1/4/5/7 done; room recording blocked on gate-2 traffic; shot 6 (stage-2 UI) now unblocked |
-| Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public); rebuild NOT yet pushed |
+| Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public); rebuild pushed 2026-09-29 ~01:40 CDT (e520c16..4b79a6f) |
 | Submission to lablab.ai | NOT DONE — user-confirmed action |
 | room.json export | PENDING — user-side (Band console → download full session) |
 | Gate-2 (seat-to-seat traffic) | PENDING — needs one parent-posted @mention to kick off handoffs |
