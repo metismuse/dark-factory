@@ -11,9 +11,24 @@
  *   { "error": { "code": "<snake_case>", "message": "<human>" } }
  */
 const http = require('http');
+const fs = require('fs');
+const path = require('path');
 const { createStore } = require('./store');
 
-const VERSION = '0.1.0-stage4';
+const VERSION = '0.1.0-stage1-4';
+
+// Stage-2 web UI: single static file, zero dependencies, served verbatim.
+// data-testid values are provisional — rename to the official track spec
+// values before submission (see SPEC.json ui.testids).
+const UI_HTML = fs.readFileSync(path.join(__dirname, 'ui.html'));
+
+function sendHtml(res, status, html) {
+  res.writeHead(status, {
+    'Content-Type': 'text/html; charset=utf-8',
+    'Content-Length': Buffer.byteLength(html),
+  });
+  res.end(html);
+}
 
 function send(res, status, body) {
   const payload = JSON.stringify(body);
@@ -162,6 +177,13 @@ function buildServer() {
           if (!transfer) return err(res, 404, 'transfer_not_found', 'No transfer with id ' + m[1]);
           return send(res, 200, { transfer });
         }
+      }
+
+      // --- stage-2 web UI -------------------------------------------------
+      // Served verbatim from app/ui.html; every element carries a (provisional)
+      // data-testid. Must come before the 404 fallback.
+      if (method === 'GET' && (path === '/' || path === '/index.html')) {
+        return sendHtml(res, 200, UI_HTML);
       }
 
       return err(res, 404, 'not_found', 'No route for ' + method + ' ' + path);

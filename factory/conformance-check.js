@@ -131,6 +131,22 @@ async function main() {
     record('ext.stage4', okStmt && okDep ? 'CONFORMS' : 'DEVIATES', 'extends model+API, breaks nothing (provisional names)');
   }
 
+  // stage-2 web UI (provisional testids — rename to official spec values at lock)
+  {
+    const res = await fetch(BASE + '/');
+    const html = await res.text();
+    const ct = res.headers.get('content-type') || '';
+    record('ui.serves', res.status === 200 && ct.includes('text/html') ? 'CONFORMS' : 'DEVIATES',
+      'status=' + res.status + ' ct=' + ct);
+    const testids = ['app-title', 'wallet-create-form', 'wallet-owner-input', 'wallet-create-submit',
+      'wallet-list', 'wallet-detail', 'wallet-id', 'wallet-balance', 'deposit-form',
+      'deposit-amount-input', 'deposit-submit', 'transfer-form', 'transfer-to-input',
+      'transfer-amount-input', 'transfer-submit', 'transfer-list', 'error-message'];
+    const missing = testids.filter((t) => !html.includes('data-testid="' + t + '"'));
+    record('ui.testids', missing.length === 0 ? 'CONFORMS' : 'DEVIATES',
+      missing.length === 0 ? testids.length + ' testids present (provisional set)' : 'missing: ' + missing.join(','));
+  }
+
   const blocked = SPEC.checklist.filter((c) => c.status.startsWith('BLOCKED') || c.status === 'not started');
   for (const c of blocked) record(c.id, 'SKIPPED', c.status);
 

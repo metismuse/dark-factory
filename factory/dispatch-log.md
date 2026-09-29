@@ -30,6 +30,34 @@ regression-guard baseline recorded at 14 tests; clean-boot verified under
 
 ## (Stage 2–4 dispatches go here as the build advances.)
 
+## 2026-09-29T00:30:00-05:00 — STAGE 2 DISPATCH
+
+> Build Stage 2 (web UI) of the pocketful wallet service against SPEC.json
+> (provisional). Done state: GET / serves a zero-dependency single-page UI
+> (app/ui.html, inline CSS/JS, no CDN, no build step) backed by the JSON API —
+> wallet list + create form, wallet detail (balance, deposit form, transfer
+> form, statement list), error display. Every interactive element carries a
+> data-testid from the PROVISIONAL set in SPEC.json ui.testids (17 values;
+> rename to the official track spec values at spec-lock — a mistyped attribute
+> scores zero with the automated harness). conformance-check.js gains ui.serves
+> + ui.testids probes; new tests/stage2.test.js (6 tests) green AND golden 14/14
+> + race 8/8 + stage4 5/5 stay green (33 total). Clean-boot re-verified under
+> unshare -rn (health 200, UI 200, zero outbound). No outbound network; $0.
+
+Outcome (recorded 2026-09-29 ~00:45 CDT): builder delivered app/ui.html (17
+provisional data-testids), server.js route (GET / + /index.html → text/html,
+VERSION 0.1.0-stage1-4), SPEC.json (28 checklist items: ui.serves + ui.testids
+flipped BLOCKED → provisional), factory/conformance-check.js (ui probes),
+tests/stage2.test.js (6/6 green: serves, testids present exactly once, no
+dupes, zero-deps, API round trip). spec-warden: 27 CONFORMS / 0 DEVIATES /
+0 SKIPPED (ui.testids no longer blocked). regression-guard: 33 tests green
+(14 golden + 8 race + 5 stage4 + 6 stage2); baseline raised to 33. Clean-boot
+verified under `unshare -rn` (health 200, UI 200, outbound probe 000/blocked).
+One self-caught test bug fixed before green (duplicate test.before hooks raced
+on `base`; merged into a single hook). Architect verdict: APPROVED for stage 2
+(provisional — testid values re-lock against the official track spec; if the
+official spec names different values, rename only — no structural rework).
+
 ## 2026-09-29T03:10:00-05:00 — STAGE 3 DISPATCH
 
 > Build Stage 3 (concurrency control / race-hunter adversary sweep) of the

@@ -1,24 +1,45 @@
 # BUILD STATUS — Dark Factory (pocketful)
 
-**Last updated:** 2026-09-29 ~03:30 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
-(~7.6 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
+**Last updated:** 2026-09-29 ~00:50 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
+(~7.5 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
 
-## Completion: ~60%
+## Completion: ~75%
 
 | Workstream | State |
 |---|---|
 | Factory scaffold (5 seats, mandates, FACTORY.md, SPEC.json, dispatch log) | DONE |
 | Stage 1 — JSON API (`app/server.js`, `app/store.js`) | DONE — gated, provisional on spec names |
-| Stage-1 gates: spec-warden 25/25 CONFORMS · golden suite 14/14 green · clean-boot (`unshare -rn`, zero outbound) verified | DONE (re-verified 2026-09-29 post stage-3/4: 25/25 CONFORMS, 1 SKIPPED) |
-| Stage 2 — Web UI (`data-testid`) | NOT STARTED — blocked on official spec |
+| Stage-1 gates: spec-warden 27/27 CONFORMS · suites 33/33 green · clean-boot (`unshare -rn`, zero outbound) verified | DONE (re-verified 2026-09-29 post stage-2: 27/27 CONFORMS, 0 SKIPPED) |
+| Stage 2 — Web UI (`data-testid`) | DONE — `app/ui.html` served at GET / (200, text/html), 17 provisional data-testids, 6/6 suite green; testid VALUES still provisional — rename to official spec at lock |
 | Stage 3 — Concurrency hardening (`tests/race.test.js`) | DONE — 8/8 green: overdraft storm, key races, adversarial inputs |
 | Stage 4 — Domain extension (wallet statement + deposit lookup) | DONE — 5/5 green, provisional names |
-| BAND account + real room + room export | NOT STARTED — blocked (parent browser task) |
-| Demo video (script done; 4/7 shots captured) | PARTIAL — shots 1/4/5/7 done; 2/3 (room) + 6 (stage-2 UI) blocked; WIP preview cut `video/preview-wip.mp4` assembled with labeled placeholders |
+| BAND account + real room + room export | IN PROGRESS — account exists ("Metis Borne" / metismuse@siteborne.net, signed in, role User; created 2026-09-27, verified live 2026-09-28 ~22:58 CDT). REST API key "metis-dark-factory" ACTIVE (created Sep 27, last-4 b2be); second key "metis-dark-factory-cli" created Sep 28 (recreated after the first reveal dialog was closed before capture). **REAL ROOM CREATED 2026-09-29 ~04:10 UTC via POST /api/v1/me/chats (user key, X-API-Key auth): room id `f1e0b711-f46e-4ad5-94e4-7ce50db2f08f`, title "Metis Dark Factory build room", status active, owner = the user account (visible in BAND Desktop). API finding: `/api/v1/agent/*` endpoints require an agent key (user key → 403 "requires agent authentication"); user key works on `/api/v1/me/*`; agent provisioning path verified: POST /api/v1/me/agents/register {name, description} returns the agent + its API key (shown once). DONE 2026-09-29 ~04:35 UTC: factory build-floor room created via POST /api/v1/me/chats — room id `a9ebab1a-4ae0-4d2d-9bbf-a9de310adf5b`, title "Metis Dark Factory — build floor". The 5 optimal seats are seated as members (moved out of the lounge room): architect→metis-decision-science (53c0cfb1-b924-41fb-af61-4ba4370e2f40), builder→metis-product-builder (263343c4-8829-4c79-b51b-25a12ed2b113), race-hunter→metis-qa-red-team (2077a3e2-f098-4920-b428-dc95d4fd8978), regression-guard→metis-platform-reliability (fd08faca-3249-4f46-9190-087c398f7c84), spec-warden→metis-risk-compliance (fad90073-3ea4-4431-9b77-529f857b888b). Generic mandate files exist in seats/{architect,builder,race-hunter,regression-guard,spec-warden}.md. Liveness supervisor built at ~/workspace/band-live/factory_supervisor.py (5 seats, @mention handoffs, cascade inference, cooldowns) — BLOCKED on agent API keys: 18/20 keys lost (shown once at registration, no rotate endpoint, agents undeletable, account at 20/20 cap); only metis-outbound-agent + metis-economic-analyst keys verified. Human gate: user reveals/regenerates the 5 seat keys in BAND Desktop and pastes them transiently, then seats go live. Lounge room f1e0b711-f46e-4ad5-94e4-7ce50db2f08f now holds owner + 14 agents. |
+| Demo video (script done; 4/7 shots captured) | PARTIAL — shots 1/4/5/7 done; 2/3 (room) blocked; shot 6 (stage-2 UI) UNBLOCKED by this run — UI is live at GET /; WIP preview cut `video/preview-wip.mp4` assembled with labeled placeholders |
 | Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public) |
 | Cover image | DONE — video/cover.png (1280×720, 5 stations, pushed) |
 | Slides | DONE — video/slides.md draft + video/slides.pdf export (7 pages, verified) |
 | Submission to lablab.ai | NOT DONE — user-confirmed action |
+
+## What's now done that was queued (2026-09-29 ~00:50 CDT run — STAGE 2)
+- Stage 2 built + verified: `app/ui.html` (zero-dependency single page, inline
+  CSS/JS, no CDN) served verbatim at GET / and /index.html (200, text/html) —
+  wallet list + create form, wallet detail (balance, deposit form, transfer
+  form, statement list), error display. 17 data-testids, each present exactly
+  once (provisional values from SPEC.json; rename to official spec at lock).
+- `tests/stage2.test.js` 6/6 green: serves HTML, /index.html alias, testids
+  present-exactly-once, no duplicates/mistypes, zero external network refs,
+  API round trip (create wallet → deposit → balance 777).
+- spec-warden: **27 CONFORMS / 0 DEVIATES / 0 SKIPPED** (ui.serves + ui.testids
+  now live probes; the ui.testids BLOCKED item is retired).
+- regression-guard: golden 14/14 + race 8/8 + stage4 5/5 + stage2 6/6 =
+  **33 tests green**; baseline raised 27 → 33.
+- Clean-boot re-verified under `unshare -rn`: health 200, UI 200, outbound
+  probe 000 (blocked).
+- Dispatch log: STAGE 2 DISPATCH entry recorded (task text + outcome +
+  architect verdict).
+- Note: the official track spec's exact data-testid values are still not in
+  hand (parent Packet A browser task). The UI is structurally complete; a
+  spec-lock is a rename-only change, no rework.
 
 ## What's now done that was queued (2026-09-29 ~03:30 CDT run)
 - Stage 3 built + verified: `tests/race.test.js` (8/8 green) — overdraft storm (exactly 5/100 succeed, rest 422),
@@ -58,15 +79,17 @@
 
 ## Blockers (all parent-owned; NOT pursued further by this subagent)
 
-1. **Official track spec** (lablab.ai session): exact endpoints, field names,
-   status codes, `data-testid` values, CPU/mem caps, deadline timezone.
-   Blocks: stage 2 UI, locking SPEC.json names, the 409/200 replay-status
-   convention, self-transfer semantics. NO decision-independent workaround —
-   building the UI on provisional names risks a full rework under the harness.
+1. **Official track spec** (lablab.ai session): VERIFIED LIVE 2026-09-28 ~22:59 CDT —
+   enrollment ACTIVE/"Approved" (3,239 participants). Tracks: **tablekeeper** (OpenTable clone; invariant: a table must never be double-booked under concurrency/retries/timezones) and **pocketful** (Venmo clone; invariant: money must never be created, destroyed, or spent twice under concurrency/retries/rounding). Prizes per track $1,500/$1,000/$500 (2nd needs ≥4 entries, 3rd needs ≥6; unawarded not redistributed). Judging 50% Factory / 25% App / 25% Agent Teamwork. **Critical rules:** mandates must be GENERIC (naming track detail = disqualification); ≥3 distinct seats each with a mandate file; repo = public GitHub, one folder per completed stage (min stage-1), + mandates + FACTORY.md + room export; video MUST include the BAND room recording; service must build/serve from a clean container with NO outbound network. Deadline Oct 6 1:59 AM CDT. OPEN GAP: per-stage (1–4) service descriptions + CPU/mem caps/concurrency/timeouts "published with the spec at kickoff" are not on the page — pull from the BAND hacker guide or kickoff material.
 2. **BAND account + API key** (free, app.band.ai): blocks the real room, the
    room export (minimum eligibility), the room recording (video DQ item), and
    all Agent Teamwork evidence (25% of the score). This is the single biggest
-   remaining risk.
+   remaining risk. AUTH SCHEME VERIFIED 2026-09-28 ~23:05 CDT from official
+   band-sdk-python (GitHub README/AGENTS.md): REST default https://app.band.ai,
+   WS wss://app.band.ai/api/v1/socket/websocket, API key sent in `X-API-Key`
+   header on REST (query param `api_key` on WS upgrade). SDK: pip `band-sdk`;
+   `Agent.create(adapter=..., agent_id=..., api_key=...)`; user-level REST key
+   provisions its own agents.
 3. **Band Desktop headless record / user-side room recording**: fallback is the
    user recording the room on their own machine (lablab docs are macOS/Linux).
 4. **Submission** — user-confirmed; never autonomous.

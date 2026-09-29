@@ -134,21 +134,27 @@
   },
   {
    "category": "stage1",
-   "check": "Zero runtime dependencies \u2014 Node.js standard library only",
+   "check": "Zero runtime dependencies — Node.js standard library only",
    "id": "ops.zero_deps",
    "status": "verified 2026-09-27"
   },
   {
    "category": "stage2",
-   "check": "Stage 2 UI carries the exact data-testid values from the official spec",
+   "check": "GET / serves the web UI (200, text/html) backed by the JSON API",
+   "id": "ui.serves",
+   "status": "provisional — built 2026-09-29; names provisional until official spec lock"
+  },
+  {
+   "category": "stage2",
+   "check": "Stage 2 UI carries the exact data-testid values from the official spec. PROVISIONAL set (rename to official values before submission): app-title, wallet-create-form, wallet-owner-input, wallet-create-submit, wallet-list, wallet-detail, wallet-id, wallet-balance, deposit-form, deposit-amount-input, deposit-submit, transfer-form, transfer-to-input, transfer-amount-input, transfer-submit, transfer-list, error-message",
    "id": "ui.testids",
-   "status": "BLOCKED \u2014 official track spec not yet in hand"
+   "status": "provisional — built 2026-09-29 against reconstructed names; lock against official spec"
   },
   {
    "category": "stage4",
    "check": "Domain extension extends the model and API, breaking nothing",
    "id": "ext.stage4",
-   "status": "provisional \u2014 built 2026-09-28, lock names against official spec"
+   "status": "provisional — built 2026-09-28, lock names against official spec"
   },
   {
    "id": "api.deposit.get",
@@ -169,14 +175,14 @@
    "docs.band.ai/jam (fetched 2026-09-26)",
    "competitor yanerox69/dark-factory README + plan.md (public, fetched 2026-09-27): four graded stages shared by both tracks; pocketful = Venmo-shaped wallet, invariants conservation / non-negativity / exactly-once"
   ],
-  "status": "PROVISIONAL \u2014 every exact name below is our best reconstruction. Lock against the official track spec before submission. A mandate naming track-specific detail is a disqualifier; this file is the spec-warden's checklist, not a seat mandate.",
-  "track": "pocketful (provisional \u2014 confirm against official track spec at enrollment)",
-  "version": "0.1.0-stage1"
+  "status": "PROVISIONAL — every exact name below is our best reconstruction. Lock against the official track spec before submission. A mandate naming track-specific detail is a disqualifier; this file is the spec-warden's checklist, not a seat mandate.",
+  "track": "pocketful (provisional — confirm against official track spec at enrollment)",
+  "version": "0.1.0-stage1-4"
  },
  "stages": {
-  "1": "JSON API \u2014 every endpoint specified, with response formats and documented error codes.",
-  "2": "Web UI \u2014 the screens the API backs, carrying the exact data-testid attribute naming each element.",
-  "3": "Concurrency control \u2014 atomic check-and-act on every write path; idempotency keys returning the original response; malformed input answered with the documented error instead of a 500.",
-  "4": "Domain extension \u2014 a real extension of the same domain, extending the model and API already built, breaking nothing that already works."
+  "1": "JSON API — every endpoint specified, with response formats and documented error codes.",
+  "2": "Web UI — the screens the API backs, carrying the exact data-testid attribute naming each element.",
+  "3": "Concurrency control — atomic check-and-act on every write path; idempotency keys returning the original response; malformed input answered with the documented error instead of a 500.",
+  "4": "Domain extension — a real extension of the same domain, extending the model and API already built, breaking nothing that already works."
  }
 }
