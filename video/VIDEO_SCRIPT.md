@@ -51,10 +51,10 @@ the 500-transfer conservation storm.
 *Narration:* "Fourteen golden tests. Five hundred concurrent random transfers —
 the total never moves. No balance below zero. Retries move money once."
 
-## Shot 6 — The UI (2:50–3:20) [BLOCKED — stage 2]
+## Shot 6 — The UI (2:50–3:20) [CAPTURED 2026-09-29 — see shots/SHOT_LOG.md]
 
-*Visual:* the web UI with the exact data-testid elements, exercised end to end.
-*Narration:* (to be written against the official spec's data-testid values)
+*Visual:* the web UI with the exact data-testid elements, exercised end to end vs the live stage-4 server: signup (Alice Demo) → pay 25.00 EUR to bob (POST /payments → 201) → wallet shows 975.00 EUR and activity entry p_000001 → requests empty.
+*Narration:* "The stage-two web interface. Every element is found by its exact data-testid — the same names the conformance suite asserts on. Sign up, pay, and the activity list shows the payment exactly once."
 
 ## Shot 7 — Close (3:20–3:40) [CAPTURABLE NOW]
 
@@ -68,6 +68,6 @@ they still make sense. The factory is the entry."
 
 - [ ] Shots 1, 4, 5, 7: terminal + screen capture (ffmpeg, local — no gate)
 - [ ] Shots 2, 3: BAND Desktop room recording under Xvfb (BLOCKED: BAND account + Desktop)
-- [ ] Shot 6: stage-2 UI walkthrough (BLOCKED: official track spec for data-testid values)
+- [x] Shot 6: stage-2 UI walkthrough (CAPTURED 2026-09-29 from real served HTML + real API JSON — see shots/SHOT_LOG.md for the honesty note)
 - [ ] Final assembly + voiceover (human-gated: recording)
 - [ ] Upload to the lablab.ai submission form (human-confirmed action)

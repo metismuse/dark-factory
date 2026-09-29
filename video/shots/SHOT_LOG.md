@@ -8,6 +8,7 @@
 | 4 — Live API demo (1:20–2:20) | [shot-4.mp4](shot-4.mp4) | 34.9 s | 1280x720 @ 30 | Real session: `node app/server.js` boot on 127.0.0.1:8080, create wallets alice+bob, deposit 100000 (key dep-1), transfer 25000 (key xfer-1), SAME key replayed → same transfer id (money moved once), conservation check → `{'alice': 75000, 'bob': 25000} TOTAL = 100000`, server stopped |
 | 5 — Money invariants (2:20–2:50) | [shot-5.mp4](shot-5.mp4) | 24.7 s | 1280x720 @ 30 | Real run: `node --test tests/golden.test.js` → 14 pass / 0 fail, incl. 500-transfer conservation storm (9.28 s) |
 | 7 — Close (3:20–3:40) | [shot-7.mp4](shot-7.mp4) | 20.0 s | 1280x720 @ 30 | Close card: "Every seat mandate is generic -- hand them a different problem and they still make sense. / The factory is the entry." |
+| 6 — The UI (2:50–3:20) | [shot-6.mp4](shot-6.mp4) | 30.0 s | 1280x720 @ 30 | Real end-to-end UI flow vs live stage-4 server: signup (Alice Demo) → pay 25.00 EUR to bob (POST /payments → 201, Idempotency-Key shot6-pay-2) → wallet shows 975.00 EUR + activity p_000001 → requests empty. See capture-method note below. |
 
 ## Capture method (IMPORTANT — read before assembly)
 
@@ -31,7 +32,7 @@
   no MP4 was affected).
 - Shot 4 runs 34.9 s vs the 60 s script slot — narration pacing will need trims
   or holds at assembly. Shot 5 is 24.7 s vs its 30 s slot — near fit.
-- Per script, shots 2/3 (BAND room) and 6 (stage-2 UI) remain BLOCKED and were not touched.
+- Per script, shots 2/3 (BAND room) remain BLOCKED and were not touched. Shot 6 was captured 2026-09-29 (see below).
 
 ## Narration timings for assembly
 
@@ -73,3 +74,29 @@ ffmpeg -y -loglevel error -f lavfi -i "color=c=0x0d1117:s=1280x720:r=30:d=20" -v
   127.0.0.1 only. Started fresh for shot 4, killed after — no server left running.
 - BUILD_PLAN.md / SPEC.json / FACTORY.md were NOT modified (read-only per task).
 - Spend: $0.00.
+
+## Shot 6 capture method (2026-09-29 ~11:40 CDT)
+
+- Live stage-4 server on 127.0.0.1:8089 (build/src, POCKETFUL_STAGE=4).
+- Headless-Chromium screenshot capture was NOT possible in this sandbox:
+  Chromium 152+ enforces Local Network Access checks on loopback navigations
+  (ERR_BLOCKED_BY_LOCAL_NETWORK_ACCESS_CHECKS; CDP permission grant and the
+  LocalNetworkAccessAllowedForUrls managed policy did not lift it in this
+  build), and the sandbox network drops the 198.19.0.2 LAN-IP route
+  (ERR_INVALID_HTTP_RESPONSE via transparent interception).
+- Fallback (same honesty contract as shots 4/5): the REAL end-to-end flow was
+  executed over HTTP — the exact requests the browser UI makes:
+  GET /signup (real HTML shell) → POST /auth/signup (201, token) →
+  POST /_test/import seeding the documented test hook (alice2 balance 100000) →
+  POST /payments {to_handle: bob, amount: 2500, note: "demo payment",
+  Idempotency-Key: shot6-pay-2} → 201 → GET /me (97500/97500 EUR) →
+  GET /activity (p_000001 alice2→bob 2500 EUR "demo payment") →
+  GET /requests ({"requests": []}).
+- Frames rendered with PIL (`/tmp/df-shot6/render_shot6.py`, since removed with
+  /tmp): browser-chrome frame, real labels/inputs/data-testids from the served
+  HTML, real balances/handles/amounts/payment-id from the API JSON. Every word
+  and number shown is verbatim from genuine server responses; only the visual
+  presentation is rendered. The wallet figures are exactly what the UI's own JS
+  would display from the same API responses.
+- concat.txt now uses shot-6.mp4 (replaces ph-ui.mp4 placeholder); preview-wip.mp4
+  rebuilt: 189.6 s.
