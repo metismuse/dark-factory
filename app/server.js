@@ -13,7 +13,7 @@
 const http = require('http');
 const { createStore } = require('./store');
 
-const VERSION = '0.1.0-stage1';
+const VERSION = '0.1.0-stage4';
 
 function send(res, status, body) {
   const payload = JSON.stringify(body);
@@ -85,6 +85,18 @@ function buildServer() {
         }
       }
 
+      // --- wallet statement (stage-4 domain extension): transfers involving
+      //     this wallet as sender or receiver, in ledger order ---------------
+      {
+        const m = path.match(/^\/api\/v1\/wallets\/([^/]+)\/transfers$/);
+        if (m) {
+          if (method !== 'GET') return err(res, 405, 'method_not_allowed', 'Method ' + method + ' not allowed on ' + path);
+          const wallet = store.getWallet(m[1]);
+          if (!wallet) return err(res, 404, 'wallet_not_found', 'No wallet with id ' + m[1]);
+          return send(res, 200, { transfers: store.listWalletTransfers(m[1]) });
+        }
+      }
+
       // --- deposits -------------------------------------------------------
       if (method === 'POST' && path === '/api/v1/deposits') {
         const body = await readBody(req);
@@ -132,6 +144,15 @@ function buildServer() {
       }
       if (method === 'GET' && path === '/api/v1/transfers') {
         return send(res, 200, { transfers: store.listTransfers() });
+      }
+      {
+        const m = path.match(/^\/api\/v1\/deposits\/([^/]+)$/);
+        if (m) {
+          if (method !== 'GET') return err(res, 405, 'method_not_allowed', 'Method ' + method + ' not allowed on ' + path);
+          const deposit = store.getDeposit(m[1]);
+          if (!deposit) return err(res, 404, 'deposit_not_found', 'No deposit with id ' + m[1]);
+          return send(res, 200, { deposit });
+        }
       }
       {
         const m = path.match(/^\/api\/v1\/transfers\/([^/]+)$/);

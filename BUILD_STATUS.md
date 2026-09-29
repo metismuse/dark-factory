@@ -1,24 +1,40 @@
 # BUILD STATUS — Dark Factory (pocketful)
 
-**Last updated:** 2026-09-28 ~04:35 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
-(~8.5 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
+**Last updated:** 2026-09-29 ~03:30 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
+(~7.6 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
 
-## Completion: ~40%
+## Completion: ~60%
 
 | Workstream | State |
 |---|---|
 | Factory scaffold (5 seats, mandates, FACTORY.md, SPEC.json, dispatch log) | DONE |
 | Stage 1 — JSON API (`app/server.js`, `app/store.js`) | DONE — gated, provisional on spec names |
-| Stage-1 gates: spec-warden 22/22 CONFORMS · golden suite 14/14 green · clean-boot (`unshare -rn`, zero outbound) verified | DONE (re-verified 2026-09-28: 14/14 green) |
+| Stage-1 gates: spec-warden 25/25 CONFORMS · golden suite 14/14 green · clean-boot (`unshare -rn`, zero outbound) verified | DONE (re-verified 2026-09-29 post stage-3/4: 25/25 CONFORMS, 1 SKIPPED) |
 | Stage 2 — Web UI (`data-testid`) | NOT STARTED — blocked on official spec |
-| Stage 3 — Concurrency control (hardening beyond stage-1 suite) | NOT STARTED |
-| Stage 4 — Domain extension | NOT STARTED |
+| Stage 3 — Concurrency hardening (`tests/race.test.js`) | DONE — 8/8 green: overdraft storm, key races, adversarial inputs |
+| Stage 4 — Domain extension (wallet statement + deposit lookup) | DONE — 5/5 green, provisional names |
 | BAND account + real room + room export | NOT STARTED — blocked (parent browser task) |
-| Demo video (script done; 4/7 shots captured) | PARTIAL — shots 1/4/5/7 done (real-run transcripts, PIL-rendered); 2/3 (room) + 6 (stage-2 UI) blocked |
-| Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public; code + cover pushed 2026-09-28) |
+| Demo video (script done; 4/7 shots captured) | PARTIAL — shots 1/4/5/7 done; 2/3 (room) + 6 (stage-2 UI) blocked; WIP preview cut `video/preview-wip.mp4` assembled with labeled placeholders |
+| Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public) |
 | Cover image | DONE — video/cover.png (1280×720, 5 stations, pushed) |
-| Slides, submission form | NOT STARTED |
+| Slides | DONE — video/slides.md draft + video/slides.pdf export (7 pages, verified) |
 | Submission to lablab.ai | NOT DONE — user-confirmed action |
+
+## What's now done that was queued (2026-09-29 ~03:30 CDT run)
+- Stage 3 built + verified: `tests/race.test.js` (8/8 green) — overdraft storm (exactly 5/100 succeed, rest 422),
+  same-key replay race (50 concurrent → one transfer, money once), key-fight race (one 201, 29×409),
+  deposit same-key race, 400-transfer distinct-key burst (conservation, no negatives), adversarial amounts
+  (floats/strings/zero/neg/null → 400 invalid_amount), adversarial bodies (array/nested → 400), cross-endpoint
+  key reuse documented as 409.
+- Stage 4 built + verified: `GET /api/v1/wallets/:id/transfers` (wallet statement) + `GET /api/v1/deposits/:id`
+  in store.js/server.js (VERSION 0.1.0-stage4); `tests/stage4.test.js` 5/5 green; stage-1 contract intact.
+- spec-warden: conformance-check.js + SPEC.json extended (27 items) → **25 CONFORMS / 0 DEVIATES / 1 SKIPPED**
+  (ui.testids, still blocked). Baseline raised: golden 14 + race 8 + stage4 5 = **27 tests green**.
+- Clean-boot re-verified post-changes: health 200 under `unshare -rn` (zero outbound).
+- Slides exported: `video/slides.pdf` (7 pages, pdfinfo-verified).
+- Video WIP preview cut `video/preview-wip.mp4`: shots 1/4/5/7 + labeled placeholder cards for blocked shots
+  2/3 (room, DQ item) and 6 (UI) — verifies the assembly pipeline end to end; final cut is a swap-in.
+- Dispatch log: STAGE 3 + STAGE 4 dispatches recorded with exact task texts and adversarial verdicts.
 
 ## What the autonomous scope delivered today
 

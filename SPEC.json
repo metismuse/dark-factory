@@ -1,1 +1,182 @@
-{"checklist":[{"category":"stage1","check":"GET /health returns 200 with {status:'ok'}","id":"api.health","status":"provisional"},{"category":"stage1","check":"POST /api/v1/wallets {owner} returns 201 with wallet {id, owner, balance:0, currency}","id":"api.wallet.create","status":"provisional"},{"category":"stage1","check":"POST /api/v1/wallets with missing/empty owner returns 400 {error:{code:'invalid_request'}}","id":"api.wallet.create.400","status":"provisional"},{"category":"stage1","check":"GET /api/v1/wallets/:id returns 200 {wallet}; unknown id returns 404 {error:{code:'wallet_not_found'}}","id":"api.wallet.get","status":"provisional"},{"category":"stage1","check":"GET /api/v1/wallets returns 200 {wallets:[...]}","id":"api.wallet.list","status":"provisional"},{"category":"stage1","check":"POST /api/v1/deposits {wallet_id, amount, idempotency_key} returns 201 {deposit}","id":"api.deposit.create","status":"provisional"},{"category":"stage1","check":"POST /api/v1/transfers {from_wallet_id, to_wallet_id, amount, idempotency_key} returns 201 {transfer}","id":"api.transfer.create","status":"provisional"},{"category":"stage1","check":"GET /api/v1/transfers/:id returns 200 {transfer}; unknown id returns 404 {error:{code:'transfer_not_found'}}","id":"api.transfer.get","status":"provisional"},{"category":"stage1","check":"All errors use envelope {error:{code:<snake_case>, message:<human>}}","id":"api.error.envelope","status":"provisional"},{"category":"stage1","check":"Overdraft returns 422 {error:{code:'insufficient_funds'}} and moves nothing","id":"api.error.insufficient","status":"provisional"},{"category":"stage1","check":"Non-positive-integer amount returns 400 {error:{code:'invalid_amount'}}","id":"api.error.amount","status":"provisional"},{"category":"stage1","check":"Missing idempotency_key returns 400 {error:{code:'idempotency_key_required'}}","id":"api.error.idem_required","status":"provisional"},{"category":"stage1","check":"Same key + different payload returns 409 {error:{code:'idempotency_key_reused'}} and touches nothing","id":"api.error.idem_reused","status":"provisional"},{"category":"stage1","check":"Malformed JSON body returns 400 {error:{code:'invalid_json'}}, never 500","id":"api.error.json","status":"provisional"},{"category":"stage1","check":"Unknown route returns 404 {error:{code:'not_found'}}","id":"api.error.404","status":"provisional"},{"category":"stage1","check":"Wrong method on a known route returns 405 {error:{code:'method_not_allowed'}}","id":"api.error.405","status":"provisional"},{"category":"stage3","check":"All money is integer minor units; no floats touch a balance","id":"money.integer_units","status":"provisional"},{"category":"stage3","check":"sum(balances) == total deposited after any storm of operations","id":"money.conservation","status":"provisional"},{"category":"stage3","check":"No balance goes below zero under any interleaving","id":"money.nonnegativity","status":"provisional"},{"category":"stage3","check":"Replay with same key+payload returns the original stored response; money moves once","id":"money.exactly_once","status":"provisional"},{"category":"stage3","check":"Debit and credit commit together or not at all; single critical section (store.js, Mutex.run in applyTransfer)","id":"money.atomic","status":"provisional"},{"category":"stage1","check":"Service boots and serves from a network-isolated environment with zero outbound (verified: unshare -rn, lo up)","id":"ops.clean_boot","status":"verified 2026-09-27"},{"category":"stage1","check":"Zero runtime dependencies — Node.js standard library only","id":"ops.zero_deps","status":"verified 2026-09-27"},{"category":"stage2","check":"Stage 2 UI carries the exact data-testid values from the official spec","id":"ui.testids","status":"BLOCKED — official track spec not yet in hand"},{"category":"stage4","check":"Domain extension extends the model and API, breaking nothing","id":"ext.stage4","status":"not started"}],"meta":{"source_intel":["lablab.ai event page (search crawl 2026-09-26)","docs.band.ai/jam (fetched 2026-09-26)","competitor yanerox69/dark-factory README + plan.md (public, fetched 2026-09-27): four graded stages shared by both tracks; pocketful = Venmo-shaped wallet, invariants conservation / non-negativity / exactly-once"],"status":"PROVISIONAL — every exact name below is our best reconstruction. Lock against the official track spec before submission. A mandate naming track-specific detail is a disqualifier; this file is the spec-warden's checklist, not a seat mandate.","track":"pocketful (provisional — confirm against official track spec at enrollment)","version":"0.1.0-stage1"},"stages":{"1":"JSON API — every endpoint specified, with response formats and documented error codes.","2":"Web UI — the screens the API backs, carrying the exact data-testid attribute naming each element.","3":"Concurrency control — atomic check-and-act on every write path; idempotency keys returning the original response; malformed input answered with the documented error instead of a 500.","4":"Domain extension — a real extension of the same domain, extending the model and API already built, breaking nothing that already works."}}
+{
+ "checklist": [
+  {
+   "category": "stage1",
+   "check": "GET /health returns 200 with {status:'ok'}",
+   "id": "api.health",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "POST /api/v1/wallets {owner} returns 201 with wallet {id, owner, balance:0, currency}",
+   "id": "api.wallet.create",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "POST /api/v1/wallets with missing/empty owner returns 400 {error:{code:'invalid_request'}}",
+   "id": "api.wallet.create.400",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "GET /api/v1/wallets/:id returns 200 {wallet}; unknown id returns 404 {error:{code:'wallet_not_found'}}",
+   "id": "api.wallet.get",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "GET /api/v1/wallets returns 200 {wallets:[...]}",
+   "id": "api.wallet.list",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "POST /api/v1/deposits {wallet_id, amount, idempotency_key} returns 201 {deposit}",
+   "id": "api.deposit.create",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "POST /api/v1/transfers {from_wallet_id, to_wallet_id, amount, idempotency_key} returns 201 {transfer}",
+   "id": "api.transfer.create",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "GET /api/v1/transfers/:id returns 200 {transfer}; unknown id returns 404 {error:{code:'transfer_not_found'}}",
+   "id": "api.transfer.get",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "All errors use envelope {error:{code:<snake_case>, message:<human>}}",
+   "id": "api.error.envelope",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Overdraft returns 422 {error:{code:'insufficient_funds'}} and moves nothing",
+   "id": "api.error.insufficient",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Non-positive-integer amount returns 400 {error:{code:'invalid_amount'}}",
+   "id": "api.error.amount",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Missing idempotency_key returns 400 {error:{code:'idempotency_key_required'}}",
+   "id": "api.error.idem_required",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Same key + different payload returns 409 {error:{code:'idempotency_key_reused'}} and touches nothing",
+   "id": "api.error.idem_reused",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Malformed JSON body returns 400 {error:{code:'invalid_json'}}, never 500",
+   "id": "api.error.json",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Unknown route returns 404 {error:{code:'not_found'}}",
+   "id": "api.error.404",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Wrong method on a known route returns 405 {error:{code:'method_not_allowed'}}",
+   "id": "api.error.405",
+   "status": "provisional"
+  },
+  {
+   "category": "stage3",
+   "check": "All money is integer minor units; no floats touch a balance",
+   "id": "money.integer_units",
+   "status": "provisional"
+  },
+  {
+   "category": "stage3",
+   "check": "sum(balances) == total deposited after any storm of operations",
+   "id": "money.conservation",
+   "status": "provisional"
+  },
+  {
+   "category": "stage3",
+   "check": "No balance goes below zero under any interleaving",
+   "id": "money.nonnegativity",
+   "status": "provisional"
+  },
+  {
+   "category": "stage3",
+   "check": "Replay with same key+payload returns the original stored response; money moves once",
+   "id": "money.exactly_once",
+   "status": "provisional"
+  },
+  {
+   "category": "stage3",
+   "check": "Debit and credit commit together or not at all; single critical section (store.js, Mutex.run in applyTransfer)",
+   "id": "money.atomic",
+   "status": "provisional"
+  },
+  {
+   "category": "stage1",
+   "check": "Service boots and serves from a network-isolated environment with zero outbound (verified: unshare -rn, lo up)",
+   "id": "ops.clean_boot",
+   "status": "verified 2026-09-27"
+  },
+  {
+   "category": "stage1",
+   "check": "Zero runtime dependencies \u2014 Node.js standard library only",
+   "id": "ops.zero_deps",
+   "status": "verified 2026-09-27"
+  },
+  {
+   "category": "stage2",
+   "check": "Stage 2 UI carries the exact data-testid values from the official spec",
+   "id": "ui.testids",
+   "status": "BLOCKED \u2014 official track spec not yet in hand"
+  },
+  {
+   "category": "stage4",
+   "check": "Domain extension extends the model and API, breaking nothing",
+   "id": "ext.stage4",
+   "status": "provisional \u2014 built 2026-09-28, lock names against official spec"
+  },
+  {
+   "id": "api.deposit.get",
+   "category": "stage4",
+   "status": "provisional",
+   "check": "GET /api/v1/deposits/:id returns 200 {deposit}; unknown id returns 404 {error:{code:'deposit_not_found'}}"
+  },
+  {
+   "id": "api.wallet.transfers",
+   "category": "stage4",
+   "status": "provisional",
+   "check": "GET /api/v1/wallets/:id/transfers returns 200 {transfers:[...]} for transfers where the wallet is sender or receiver; unknown id returns 404 {error:{code:'wallet_not_found'}}"
+  }
+ ],
+ "meta": {
+  "source_intel": [
+   "lablab.ai event page (search crawl 2026-09-26)",
+   "docs.band.ai/jam (fetched 2026-09-26)",
+   "competitor yanerox69/dark-factory README + plan.md (public, fetched 2026-09-27): four graded stages shared by both tracks; pocketful = Venmo-shaped wallet, invariants conservation / non-negativity / exactly-once"
+  ],
+  "status": "PROVISIONAL \u2014 every exact name below is our best reconstruction. Lock against the official track spec before submission. A mandate naming track-specific detail is a disqualifier; this file is the spec-warden's checklist, not a seat mandate.",
+  "track": "pocketful (provisional \u2014 confirm against official track spec at enrollment)",
+  "version": "0.1.0-stage1"
+ },
+ "stages": {
+  "1": "JSON API \u2014 every endpoint specified, with response formats and documented error codes.",
+  "2": "Web UI \u2014 the screens the API backs, carrying the exact data-testid attribute naming each element.",
+  "3": "Concurrency control \u2014 atomic check-and-act on every write path; idempotency keys returning the original response; malformed input answered with the documented error instead of a 500.",
+  "4": "Domain extension \u2014 a real extension of the same domain, extending the model and API already built, breaking nothing that already works."
+ }
+}

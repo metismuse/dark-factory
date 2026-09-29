@@ -116,6 +116,21 @@ async function main() {
   record('money.integer_units', 'CONFORMS', 'store.js: integer minor units; isValidAmount rejects non-integers (server.js)');
   record('money.atomic', 'CONFORMS', 'store.js: Mutex.run wraps applyTransfer; debit+credit in one critical section');
 
+  // stage-4 domain extension (provisional names — lock against official spec)
+  {
+    const w = (await api('POST', '/api/v1/wallets', { owner: 'warden-e' })).json.wallet;
+    const missW = await api('GET', '/api/v1/wallets/w_nope/transfers');
+    const d = (await api('POST', '/api/v1/deposits', { wallet_id: w.id, amount: 42, idempotency_key: 'cc-dep-s4' })).json.deposit;
+    const dg = await api('GET', '/api/v1/deposits/' + d.id);
+    const dgMiss = await api('GET', '/api/v1/deposits/d_nope');
+    const stmt = await api('GET', '/api/v1/wallets/' + w.id + '/transfers');
+    const okStmt = stmt.status === 200 && Array.isArray(stmt.json.transfers) && missW.status === 404 && missW.json.error.code === 'wallet_not_found';
+    const okDep = dg.status === 200 && dg.json.deposit && dg.json.deposit.id === d.id && dgMiss.status === 404 && dgMiss.json.error.code === 'deposit_not_found';
+    record('api.wallet.transfers', okStmt ? 'CONFORMS' : 'DEVIATES', 'status=' + stmt.status);
+    record('api.deposit.get', okDep ? 'CONFORMS' : 'DEVIATES', 'status=' + dg.status);
+    record('ext.stage4', okStmt && okDep ? 'CONFORMS' : 'DEVIATES', 'extends model+API, breaks nothing (provisional names)');
+  }
+
   const blocked = SPEC.checklist.filter((c) => c.status.startsWith('BLOCKED') || c.status === 'not started');
   for (const c of blocked) record(c.id, 'SKIPPED', c.status);
 

@@ -93,8 +93,22 @@ function createStore() {
     return transfers.get(id) || null;
   }
 
+  function getDeposit(id) {
+    return deposits.get(id) || null;
+  }
+
   function listTransfers() {
     return Array.from(transfers.values());
+  }
+
+  /**
+   * Stage-4 domain extension: the wallet statement — every transfer where this
+   * wallet is the sender or the receiver, in ledger (insertion) order.
+   */
+  function listWalletTransfers(walletId) {
+    return listTransfers().filter(
+      (t) => t.from_wallet_id === walletId || t.to_wallet_id === walletId
+    );
   }
 
   function totalBalances() {
@@ -192,7 +206,9 @@ function createStore() {
     createWallet,
     listWallets,
     getTransfer,
+    getDeposit,
     listTransfers,
+    listWalletTransfers,
     applyDeposit,
     applyTransfer,
     totalBalances,
