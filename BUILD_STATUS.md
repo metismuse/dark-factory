@@ -11,7 +11,7 @@
 | **Official-spec rebuild** (`build/src/{server,ledger,ui}.js`, zero-dep Node) | DONE 2026-09-29 — written against `/tmp/df-spec/pocketful/spec/stage-{1..4}.md` |
 | stage-1/…/stage-4/ folders (Dockerfile + RUN.md each, POCKETFUL_STAGE-pinned) | DONE — `build/assemble.sh` copies canonical src; overshoot gates verified (stage-1 404s all stage-2+ routes) |
 | Stage-1 conformance | **147/147 shipped pytest checks green** (2026-09-29) |
-| Stage-2 conformance | API sample green; **UI browser suite 25/25 green** (2026-09-29, local Chromium vs stage-4 server) |
+| Stage-2 conformance | API sample **10/10 green** (incl. stage-1→4 upgrade/import test via `--previous-base-url`); **UI browser suite 25/25 green** (2026-09-29, local Chromium vs stage-4 server) |
 | Repo test suites | **REWRITTEN** `tests/official.test.js` (node:test, zero-dep): **15/15 green** — stages 1–4 API + overshoot gates + race storms (same-key ×25, overdraft ×20, pay/decline race) |
 | Stage-3 conformance | **6/6 sample green** (2026-09-29) |
 | Stage-4 conformance | **5/5 sample green** (2026-09-29) |
