@@ -103,3 +103,23 @@ Clean-boot verified: health 200 under `unshare -rn` (zero outbound).
 Architect verdict: APPROVED for stage 4 (provisional — names re-lock against
 the official track spec; if the official spec defines stage 4 as a different
 extension, that gets built at lock time).
+
+## OFFICIAL-SPEC REBUILD (recorded 2026-09-29 ~06:05 CDT)
+> The official track spec arrived (/tmp/df-spec/pocketful/spec/stage-{1..4}.md
+> + shipped pytest suites + harness). The provisional wallet/deposit/transfer
+> API is retired. Rebuild pocketful from the official contract as a zero-
+> dependency Node service: build/src/{server,ledger,ui}.js; assemble into
+> stage-1/..stage-4/ (Dockerfile + RUN.md each, POCKETFUL_STAGE-pinned so a
+> stage-N image 404s every later-stage route); SPEC.json rewritten to the
+> official contract; seats/*.md gain Harness/Model header lines; mandates/
+> mirrored for submission.
+> Done state: shipped pytest suites green per stage against the local server.
+
+Outcome: builder delivered the full rebuild. Conformance (shipped suites,
+run directly 2026-09-29): stage-1 **147/147 green**, stage-2 API sample green
+(UI suite needs a real browser — graded env), stage-3 **6/6 green**, stage-4
+**5/5 green**. Suite-found fixes: /me exposes minor_units; fixture minor_units
+defaults from currency; /activity ignores request-only params; seeded fixtures
+accept *_user_id/id keys; missing to_handle is 422; export returns 200.
+Architect verdict: APPROVED — the old app/tests/factory layout stays retired;
+graded build is build/src + stage-N.

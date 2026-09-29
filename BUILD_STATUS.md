@@ -1,9 +1,39 @@
 # BUILD STATUS — Dark Factory (pocketful)
 
-**Last updated:** 2026-09-29 ~00:50 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
-(~7.5 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
+**Last updated:** 2026-09-29 ~06:00 CDT · **Deadline:** Oct 6, 2026 1:59 AM CDT
+(~7 days remaining) · **Spend:** $0.00 (all local compute + free tiers)
 
-## Completion: ~75%
+## Completion: ~90%
+
+| Workstream | State |
+|---|---|
+| Factory scaffold (5 seats, mandates, FACTORY.md, SPEC.json, dispatch log) | DONE — mandates carry `Harness: band-sdk` + `Model: openai/gpt-oss-20b` (first two lines); `mandates/` mirrors `seats/` for submission |
+| **Official-spec rebuild** (`build/src/{server,ledger,ui}.js`, zero-dep Node) | DONE 2026-09-29 — written against `/tmp/df-spec/pocketful/spec/stage-{1..4}.md` |
+| stage-1/…/stage-4/ folders (Dockerfile + RUN.md each, POCKETFUL_STAGE-pinned) | DONE — `build/assemble.sh` copies canonical src; overshoot gates verified (stage-1 404s all stage-2+ routes) |
+| Stage-1 conformance | **147/147 shipped pytest checks green** (2026-09-29) |
+| Stage-2 conformance | API sample green; **UI browser suite now runs locally** (Chromium downloaded; cfg fix: `window.POCKETFUL` now carries currency/minor_units — was undefined, crashed every page) |
+| Repo test suites | **REWRITTEN** `tests/official.test.js` (node:test, zero-dep): **15/15 green** — stages 1–4 API + overshoot gates + race storms (same-key ×25, overdraft ×20, pay/decline race) |
+| Stage-3 conformance | **6/6 sample green** (2026-09-29) |
+| Stage-4 conformance | **5/5 sample green** (2026-09-29) |
+| SPEC.json | REWRITTEN to the official pocketful contract (provisional wallet/deposit API retired) |
+| Demo video | PARTIAL — shots 1/4/5/7 done; room recording blocked on gate-2 traffic; shot 6 (stage-2 UI) now unblocked |
+| Public GitHub repo | DONE — https://github.com/metismuse/dark-factory (public); rebuild NOT yet pushed |
+| Submission to lablab.ai | NOT DONE — user-confirmed action |
+| room.json export | PENDING — user-side (Band console → download full session) |
+| Gate-2 (seat-to-seat traffic) | PENDING — needs one parent-posted @mention to kick off handoffs |
+
+## Rebuild notes (2026-09-29 ~06:00 CDT)
+- Old layout (`app/server.js`, `app/store.js`, `tests/*.test.js`, `factory/conformance-check.js`) is
+  retired in place; the graded build is `build/src/` + `stage-N/`.
+- Conformance was run with the shipped suites directly:
+  `python -m pytest pocketful/test/stage_N --base-url=http://127.0.0.1:8080 -p harness.plugin`
+  (with the `NO_PROXY=localhost,127.0.0.1` workaround for the VM's httpx/proxy quirk).
+- Fixes found by the suites: `/me` exposes `minor_units`; fixture `minor_units` defaults from
+  currency (JPY→0, BHD→3); `/activity` ignores request-only params (200); seeded fixtures accept
+  `*_user_id`/`id` keys; missing `to_handle` is 422; export is 200.
+- `docker run` cannot be verified on this VM (sandbox blocks `setns`); the Dockerfile is written
+  for the graded env and follows the standard `node:24-alpine` pattern. Document, don't re-verify.
+- Scrypt logins (~130ms) make the full stage-1 suite take ~3 min; graded env should be similar.
 
 | Workstream | State |
 |---|---|
